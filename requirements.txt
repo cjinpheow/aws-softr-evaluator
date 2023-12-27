@@ -1,0 +1,5 @@
+boto3
+gnureadline
+simple_term_menu
+termcolor
+argparse

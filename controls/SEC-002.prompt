@@ -1,0 +1,21 @@
+Base on the following requirements:
+
+<requirements>
+SEC-002 - Secure access to customer-owned AWS accounts.
+
+You must have a standard approach to access customer-owned accounts using temporary credentials such as IAM roles. If you maintain access to a customer-owned AWS account to provide ongoing operational support, that access must be provided through a cross-account IAM role. Customers may not provide IAM user credentials to the AWS Partner for long term access. Please provide the following evidence:
+
+- Description of the process used to access customer-owned AWS accounts. This should include both AWS Management Console access and programmatic access using the AWS Command Line Interface or other custom tools.
+
+Please provide the following as evidence:
+
+- Written description of the established process to access customer-owned AWS accounts
+</requirements>
+
+Grade the partner response below from a scale of 1 to 100, 1 being least compliant and 100 being most compliant. 
+
+Response with the grade followed by a short explanation. If you are unable to grade, say so with an short explanation.
+
+<partner>
+$partner
+</partner>

@@ -1,0 +1,22 @@
+Base on the following requirements:
+
+<requirements>
+TECH-001 - Identify relevant AWS technical expertise for the service offering.
+
+You should have a process to identify the right AWS expertise and ensure that there are sufficient trained personnel to effectively support customers. You must provide written descriptions on:
+    
+- Details of AWS expertise needed for the specific service offering (for example AWS service names, domain knowledge or industry use cases)
+- Required credentials, certifications and trainings for customer facing consultants
+
+Please provide the following as evidence:
+    
+- Written description of required technial expertise and training plan/materials relevant to the specific service offering
+</requirements>
+
+Grade the partner response below from a scale of 1 to 100, 1 being least compliant and 100 being most compliant. 
+
+Response with the grade followed by a short explanation. If you are unable to grade, say so with an short explanation.
+
+<partner>
+$partner
+</partner>

@@ -1,0 +1,23 @@
+Base on the following requirements:
+
+<requirements>
+SAAS-001 - SaaS components pass a software AWS Foundational Technical Review (FTR).
+
+Any components of the offering that are operated by the AWS Partner in a software-as-a-service delivery model must pass an AWS Foundational Technical Review (FTR).
+
+Please provide the following evidence:
+
+- A list of components operated by the AWS Partner in a SaaS delivery model.
+- The FTR Status of each SaaS component.
+
+
+If there are no SaaS components, please explicitly indicate that and mark the requirement as met.
+</requirements>
+
+Grade the partner response below from a scale of 1 to 100, 1 being least compliant and 100 being most compliant. 
+
+Response with the grade followed by a short explanation. If you are unable to grade, say so with an short explanation.
+
+<partner>
+$partner
+</partner>

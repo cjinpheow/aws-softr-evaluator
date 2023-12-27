@@ -1,0 +1,21 @@
+Base on the following requirements:
+
+<requirements>
+SEC-001 - Secure AWS accounts governance.
+
+Your internal Security SOP must include secure AWS accounts governance. If you create AWS accounts on behalf of customer, you must enable MFA on root, set accounts contact information using company information, create cloud watch alerts. Pease provide the following evidence:
+
+- Description of process used to create AWS accounts on behalf of customers
+
+Please provide the following as evidence:
+
+- Written description and/or security standard operating procesure (SOP) on how to create and secure an AWS account
+</requirements>
+
+Grade the partner response below from a scale of 1 to 100, 1 being least compliant and 100 being most compliant. 
+
+Response with the grade followed by a short explanation. If you are unable to grade, say so with an short explanation.
+
+<partner>
+$partner
+</partner>

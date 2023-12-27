@@ -1,0 +1,23 @@
+Base on the following requirements:
+
+<requirements>
+RISK-001 - Identify and Mitigate risks associated with the service offering.
+
+You must have a process to identify and mitigate potential risk related with the service offering. For example, you can use AWS Well Architecture framework to review and identify risks on your AWS workload. You must provide written descriptions on:
+
+- Identified high risk areas (compliance, technical limitations, 3rd party resources) related to AWS service offering
+- Mitigation considerations for each identified risk
+
+Please provide the following as evidence:
+
+- Written description of risk asessment and mitigations relevant to the specific service offering
+
+</requirements>
+
+Grade the partner response below from a scale of 1 to 100, 1 being least compliant and 100 being most compliant. 
+
+For each identified risk area, specify the risk and then the mitigation plan.
+
+<partner>
+$partner
+</partner>
