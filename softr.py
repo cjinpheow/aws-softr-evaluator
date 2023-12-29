@@ -82,7 +82,7 @@ def select_region():
     return regions[terminal_menu.chosen_menu_entry]
 
 region = args.region
-if region is None:
+if region is None or region not in regions.values():
     region = select_region()
 
 print("In region: ", end="")
@@ -95,19 +95,18 @@ except Exception as e:
     exit(1)
 
 streaming_models = []
+model_client = boto3.client('bedrock', region_name=region)
+model_data = model_client.list_foundation_models()
+models = {}
+for model in model_data['modelSummaries']:
+    if ":" in model['modelId']:
+        continue
+    if "TEXT" in model['inputModalities'] and "TEXT" in model['outputModalities']:
+        models[model['modelName']] = model['modelId']
+        if model['responseStreamingSupported']:
+            streaming_models.append(model['modelId'])
 
-def select_model(region):
-    model_client = boto3.client('bedrock', region_name=region)
-    model_data = model_client.list_foundation_models()
-    models = {}
-    for model in model_data['modelSummaries']:
-        if ":" in model['modelId']:
-            continue
-        if "TEXT" in model['inputModalities'] and "TEXT" in model['outputModalities']:
-            models[model['modelName']] = model['modelId']
-            if model['responseStreamingSupported']:
-                streaming_models.append(model['modelId'])
-
+def select_model(models):
     terminal_menu = TerminalMenu(models, 
                                  menu_highlight_style=("bg_green", "fg_black"),
                                  title="Select a model:")
@@ -115,15 +114,14 @@ def select_model(region):
     return models[terminal_menu.chosen_menu_entry]
 
 modelId = args.model_id
-if modelId is None:
-    modelId = select_model(region)
+if modelId is None or modelId not in models.values():
+    modelId = select_model(models)
 
 print("Using model: ", end="")
 cprint(modelId, "black", "on_green")
 
 prompt_input = args.body
 if prompt_input is None:
-    # prompt_input = input("Enter partner input: ")
     print("Enter partner input: (Hit Ctrl-D on a blank new line to end) ", flush=True)
     prompt_input = sys.stdin.read()
 
@@ -142,8 +140,7 @@ prompt_template = read_file(SOFTR_CONTROLS_PATH+control+'.prompt')
 
 def construct_prompt(body):
     t = Template(prompt_template)
-    return t.substitute(
-        partner=body)
+    return t.substitute(partner=body)
 
 if "cohere.command" in modelId:
     body = json.dumps({
@@ -232,20 +229,21 @@ if modelId in streaming_models:
     chunks = []
     for event in response['body']:
         chunk = ''
+        response_chunk = json.loads(event['chunk'].get('bytes'))
         if "amazon.titan" in modelId:
-            chunk = json.loads(event['chunk'].get('bytes'))['outputText']
+            chunk = response_chunk['outputText']
 
         if "anthropic.claude" in modelId:
-            chunk = json.loads(event['chunk'].get('bytes'))['completion']
+            chunk = response_chunk['completion']
 
         if "cohere.command" in modelId:
-            chunk = json.loads(event['chunk'].get('bytes'))['generations'][0]['text']
+            chunk = response_chunk['generations'][0]['text']
 
         if "meta.llama2" in modelId:
-            chunk = json.loads(event['chunk'].get('bytes'))['generation']
+            chunk = response_chunk['generation']
 
         if not chunks:
-            chunk = chunk.strip()
+            chunk = chunk.lstrip()
 
         cprint(chunk, "black", "on_yellow", end="", flush=True)
         chunks.append(chunk)
@@ -271,6 +269,6 @@ else:
     if "meta.llama2" in modelId:
         result = response_body['generation']
 
-    cprint(result.strip(), "black", "on_yellow")
+    cprint(result.lstrip(), "black", "on_yellow")
 
 print("="*78)
