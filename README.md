@@ -1,5 +1,20 @@
 ## SOFTR Evaluator powered by Amazon Bedrock!
 
+### Applications
+
+#### `softr.py`
+
+This app assists with evaluating responses to questions from the Foundational Technical Review for Service Offerings checklist. (See https://apn-checklists.s3.amazonaws.com/foundational/service-offering/service-offering/CvQeIgC_P.html)
+
+While automated checks provide initial guidance, full compliance assessment still requires human judgment. The goal is to help identify potential areas for strengthening or clarification, not to make definitive pass/fail determinations. Results should be considered as one input in an iterative process of review and improvement toward the shared objective of robust, secure solutions.
+
+#### `improver.py`
+
+The second app leverages significant code components from the first app. Its core purpose aims to add value to user-generated content in a positive and supportive way. It uses the following prompt prefix:
+```
+Improve upon the following text in a critical but helpful way: <USER-INPUT>
+```
+
 ### Configuration
 This distribution is set up like a standard Python project. The initialization process uses __virtualenv__ within this project to create an isolated Python environment, stored under the `.venv` directory. To create the __virtualenv__, it assumes that there is a `python3` (or `python` for Windows) executable in your path with access to the `venv` package. 
 
