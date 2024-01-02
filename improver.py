@@ -9,6 +9,7 @@ from simple_term_menu import TerminalMenu
 from termcolor import colored, cprint
 
 PROMPT_TEMPLATE = "Improve upon the following text in a critical but helpful way:\n$input"
+MAX_TOKENS_COUNT = 2048
 
 # AWS Bedrock Regions (as of Dec 2023)
 regions = {
@@ -102,7 +103,7 @@ def construct_prompt(body):
 if "cohere.command" in modelId:
     body = json.dumps({
         "prompt": construct_prompt(prompt_input),
-        "max_tokens": 1500,
+        "max_tokens": MAX_TOKENS_COUNT,
         "temperature": 0.9,
         "p": 0.9
     })
@@ -110,7 +111,7 @@ if "cohere.command" in modelId:
 if "meta.llama2" in modelId:
     body = json.dumps({
         "prompt": construct_prompt(prompt_input),
-        "max_gen_len": 1500,
+        "max_gen_len": MAX_TOKENS_COUNT,
         "temperature": 0.9,
         "top_p": 0.9
     })
@@ -119,7 +120,7 @@ if "amazon.titan" in modelId:
     body = json.dumps({
         "inputText": construct_prompt(prompt_input),
         "textGenerationConfig": {
-            "maxTokenCount": 1500,
+            "maxTokenCount": MAX_TOKENS_COUNT,
             "stopSequences": [],
             "temperature": 0.9,
             "topP": 0.9
@@ -129,7 +130,7 @@ if "amazon.titan" in modelId:
 if "anthropic.claude" in modelId:
     body = json.dumps({
         "prompt": '\n\nHuman: {}\n\nAssistant:'.format(construct_prompt(prompt_input)),
-        "max_tokens_to_sample": 1500,
+        "max_tokens_to_sample": MAX_TOKENS_COUNT,
         "temperature": 0.75,
         "top_k": 250,
         "top_p": 1,
@@ -139,7 +140,7 @@ if "anthropic.claude" in modelId:
 if "ai21.j2" in modelId:
     body = json.dumps({
         "prompt": construct_prompt(prompt_input),
-        "maxTokens": 1500,
+        "maxTokens": MAX_TOKENS_COUNT,
         "temperature": 0.7,
         "topP": 1,
         "stopSequences": [],
