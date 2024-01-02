@@ -15,6 +15,26 @@ The second app leverages significant code components from the first app. Its cor
 Improve upon the following text in a critical but helpful way: <USER-INPUT>
 ```
 
+### Streamlit variants
+
+#### `softr_st.py`
+
+This version of the application utilizes the **Streamlit** framework to create an interactive, browser-based user interface.
+
+To run the app, use the command:
+```
+$ streamlit run softr_st.py
+```
+
+#### `improver_st.py`
+
+This version of the application utilizes the **Streamlit** framework to create an interactive, browser-based user interface.
+
+To run the app, use the command:
+```
+$ streamlit run improver_st.py
+```
+
 ### Configuration
 This distribution is set up like a standard Python project. The initialization process uses __virtualenv__ within this project to create an isolated Python environment, stored under the `.venv` directory. To create the __virtualenv__, it assumes that there is a `python3` (or `python` for Windows) executable in your path with access to the `venv` package. 
 

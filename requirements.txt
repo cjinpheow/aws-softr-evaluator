@@ -3,3 +3,4 @@ gnureadline
 simple_term_menu
 termcolor
 argparse
+streamlit
