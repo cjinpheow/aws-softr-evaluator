@@ -154,7 +154,7 @@ if "ai21.j2" in modelId:
         }
     })
 
-print("Evaluating partner input:")
+print("Evaluating input:")
 cprint(prompt_input, "black", "on_green")
 
 print("="*78)
