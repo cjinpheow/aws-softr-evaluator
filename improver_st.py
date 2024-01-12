@@ -4,7 +4,8 @@ import streamlit as st
 from string import Template
 from termcolor import colored, cprint
 
-PROMPT_TEMPLATE = "Improve upon the following text in a critical but helpful way:\n$input"
+APP_TITLE = "Text Improver 💡"
+PROMPT_TEMPLATE = "Improve upon the following text in a critical but helpful way:\n$INPUT"
 
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.9)
 maxtokens = st.sidebar.slider("Max Tokens", 1, 2048, 1024)
@@ -66,21 +67,21 @@ modelId = models[modelId]
 print("Using model: ", end="")
 cprint(modelId, "black", "on_green")
 
-st.title("Text Improver 🧑‍💻")
+st.title(APP_TITLE)
 
 prompt_input = ''
 
 accept = 'application/json'
 contentType = 'application/json'
 
-def construct_prompt(body):
-    t = Template(PROMPT_TEMPLATE)
-    return t.substitute(input=body)
+def construct_prompt(body, template):
+    t = Template(template)
+    return t.substitute(INPUT=body)
 
-def construct_payload(prompt_input):
+def construct_payload(prompt_input, template):
     if "cohere.command" in modelId:
         body = json.dumps({
-            "prompt": construct_prompt(prompt_input),
+            "prompt": construct_prompt(prompt_input, template),
             "max_tokens": maxtokens,
             "temperature": temperature,
             "p": 0.9
@@ -88,7 +89,7 @@ def construct_payload(prompt_input):
 
     if "meta.llama2" in modelId:
         body = json.dumps({
-            "prompt": construct_prompt(prompt_input),
+            "prompt": construct_prompt(prompt_input, template),
             "max_gen_len": maxtokens,
             "temperature": temperature,
             "top_p": 0.9
@@ -96,7 +97,7 @@ def construct_payload(prompt_input):
 
     if "amazon.titan" in modelId:
         body = json.dumps({
-            "inputText": construct_prompt(prompt_input),
+            "inputText": construct_prompt(prompt_input, template),
             "textGenerationConfig": {
                 "maxTokenCount": maxtokens,
                 "stopSequences": [],
@@ -107,7 +108,7 @@ def construct_payload(prompt_input):
 
     if "anthropic.claude" in modelId:
         body = json.dumps({
-            "prompt": '\n\nHuman: {}\n\nAssistant:'.format(construct_prompt(prompt_input)),
+            "prompt": '\n\nHuman: {}\n\nAssistant:'.format(construct_prompt(prompt_input, template)),
             "max_tokens_to_sample": maxtokens,
             "temperature": temperature,
             "top_k": 250,
@@ -117,7 +118,7 @@ def construct_payload(prompt_input):
 
     if "ai21.j2" in modelId:
         body = json.dumps({
-            "prompt": construct_prompt(prompt_input),
+            "prompt": construct_prompt(prompt_input, template),
             "maxTokens": maxtokens,
             "temperature": temperature,
             "topP": 1,
@@ -225,9 +226,10 @@ def ai_response(response):
 
 
 with st.form('my_form'):
-    text = st.text_area(label='Enter text to improve here:', label_visibility='collapsed',placeholder='Enter text to improve here')
+    template = st.text_area(label='Prompt Template', label_visibility='visible', value=PROMPT_TEMPLATE)
+    text = st.text_area(label='$INPUT', label_visibility='visible',placeholder='Enter text to improve here')
     submitted = st.form_submit_button('Submit')
     if submitted:
-        payload = construct_payload(text)
+        payload = construct_payload(text, template)
         response = ai_request(payload)
         answer = ai_response(response)
