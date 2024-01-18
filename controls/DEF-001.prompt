@@ -1,7 +1,7 @@
-Base on the following requirements:
-
-<requirements>
+<assessment-criteria>
 DEF-001 - Clearly define the core of service offering (what, who, and how).
+
+# Requirements
 
 This is the foundation of your service offering. It must provide customers with details of your technical capabilities and experience on the service offering to make an informed decision.
 
@@ -9,23 +9,42 @@ This is the foundation of your service offering. It must provide customers with 
 - Characteristics and profiles of target customers
 - Customer engagement and delivery mechanisms
 
-Please provide the following as evidence:
+# Criteria for Passing
 
-- A public URL containing offering details mentioned above must be provided to be acceptable.
-</requirements>
+- Provide a public landing page that describes your offer specifics related with AWS, OR,
+- Partner website, AWS Marketplace listing, or any other publicly accessible link qualifies
 
-Evaluate the partner response below.
+# Why is this important?
 
-<partner>
+It provides clear value proposition and technical expertise so that customers can assess if this fits their use case.
+
+# How can you implement this?
+
+You can create a publicly accessible page from homepage by highlighting specific practice, solutions on AWS, or leveraged AWS services related with the offer. You should consider including customer reference if applicable.
+
+When creating a reference architecture diagram, it’s important that the diagrams indicate primary AWS native services, demonstrate major networking components and how components communicate with users over the internet.
+
+# Unacceptable/Incomplete responses
+
+Response is unacceptable or doesn’t have the sufficient information when:
+- Partner doesn't have a public URL for the listed offer
+- Partner response doesn’t really indicate AWS relevance
+- Response doesn't have all three components - who, what & how.
+- No architecture diagram included for an offer involving hands-on implementation
+</assessment-criteria>
+
+Base on the assessment criteria above, critically evaluate the partner's response below:
+
+<partner-response>
 $partner
-</partner>
+</partner-response>
 
-Answer the following questions, repeating the question before each answer. 
+Then answer the following questions base only on the partner's response, repeating the question before each answer. 
 
 <questions>
-1. What grading would you give from a scale of 1 to 100, and why?
-2. What is the service offering about?
-3. Which type of clients is the service offering targetted at?
-4. Briefly explain the engagement and delivery mechanism.
-5. What is the provided public URL for this service offering? If it is not provided, then this response is non-compliant.
+1. What grading would you give for the partner's response from a scale of 1 to 100, and why?
+2. What is the service offering about, and how does it relate to AWS Cloud?
+3. Which specific type of clients is the service offering targetted at?
+4. What is the partner's engagement and delivery mechanism such as timelines, sequence of steps? Essentially, what can the customer expect?
+5. What is the provided public URL for this service offering? If it is not provided, then this response is less-compliant.
 </questions>
