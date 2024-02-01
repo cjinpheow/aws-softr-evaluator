@@ -1,4 +1,5 @@
 import boto3
+import hmac
 import json
 import streamlit as st
 from string import Template
@@ -10,6 +11,40 @@ APP_TITLE = ":blue[{}] {}".format(PAGE_TITLE, PAGE_ICON)
 PROMPT_TEMPLATE = "Provide a helpful, friendly response to this user question:\n$INPUT"
 
 st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON)
+st.header(APP_TITLE, divider=False)
+
+def check_password(p):
+    """Returns `True` if the user had the correct password."""
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct.
+        Secrets are stored locallly in ~/.streamlit/secrets.toml file."""
+        if hmac.compare_digest(st.session_state["userpass"], st.secrets.common.password):
+            st.session_state["password_correct"] = True
+            del st.session_state["userpass"]  # Don't store the password.
+        else:
+            st.session_state["password_correct"] = False
+
+    # Return True if the password is validated.
+    if st.session_state.get("password_correct", False):
+        return True
+
+    # Show input for password.
+    p.text_input(
+        label="Enter the **:rainbow[Magic Word]** to access this app:", type="password", on_change=password_entered, key="userpass"
+    )
+
+    if "password_correct" in st.session_state:
+        st.error("Incorrect password")
+
+    return False
+
+p = st.empty()
+
+if not check_password(p):
+    st.stop()  # Do not continue if check_password is not True.
+
+st.empty()
 
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.5)
 maxtokens = st.sidebar.slider("Max Tokens", 1, 2048, 1024)
@@ -70,8 +105,6 @@ modelId = models[modelId]
 
 print("Using model: ", end="")
 cprint(modelId, "black", "on_green")
-
-st.title(APP_TITLE)
 
 prompt_input = ''
 
@@ -157,7 +190,8 @@ def ai_request(body):
             response = client.invoke_model(
                 body=body, modelId=modelId, accept=accept,  contentType=contentType)
     except Exception as err:
-        print(err)
+        cprint(err, "black", "on_red")
+        st.error(err)
         exit(-1)
 
     print("="*78)
@@ -228,10 +262,9 @@ def ai_response(response):
         c.write(result.lstrip())
         return result.lstrip()
 
-
 with st.form('my_form'):
     template = st.text_area(label='Prompt Template', label_visibility='visible', value=PROMPT_TEMPLATE)
-    text = st.text_area(label='$INPUT:', label_visibility='visible',placeholder='Enter question here')
+    text = st.text_area(label='$INPUT:', label_visibility='visible', placeholder='Enter question here')
     submitted = st.form_submit_button('Submit')
     if submitted:
         payload = construct_payload(text, template)
