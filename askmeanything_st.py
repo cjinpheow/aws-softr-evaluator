@@ -8,7 +8,7 @@ from termcolor import colored, cprint
 PAGE_TITLE = "Ask Me Anything"
 PAGE_ICON = ":mechanic:"
 APP_TITLE = ":blue[{}] {}".format(PAGE_TITLE, PAGE_ICON)
-PROMPT_TEMPLATE = "Provide a helpful, friendly response to this user question:\n$INPUT"
+PROMPT_TEMPLATE = "$INPUT\nProvide a helpful, friendly response to this user question above."
 
 st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON)
 st.header(APP_TITLE, divider=False)
@@ -46,6 +46,8 @@ if not check_password(p):
 
 st.empty()
 
+st.session_state.prompt_template = st.session_state.get("prompt_template", PROMPT_TEMPLATE)
+st.sidebar.text_area(label="Prompt Template", key="prompt_template")
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.5)
 maxtokens = st.sidebar.slider("Max Tokens", 1, 2048, 1024)
 
@@ -262,11 +264,21 @@ def ai_response(response):
         c.write(result.lstrip())
         return result.lstrip()
 
+def clear_text():
+    st.session_state.textarea = ""
+
+st.button('Clear', type='secondary', on_click=clear_text)
+
 with st.form('my_form'):
-    template = st.text_area(label='Prompt Template', label_visibility='visible', value=PROMPT_TEMPLATE)
-    text = st.text_area(label='$INPUT:', label_visibility='visible', placeholder='Enter question here')
-    submitted = st.form_submit_button('Submit')
+    ## $INPUT
+    st.session_state.textarea = st.session_state.get("textarea", "")
+    st.text_area(label='$INPUT:', label_visibility='visible', key='textarea', placeholder='Enter input here')
+
+    submitted = st.form_submit_button('Submit', type='primary')
     if submitted:
-        payload = construct_payload(text, template)
+        payload = construct_payload(
+            st.session_state.textarea,
+            st.session_state.prompt_template
+        )
         response = ai_request(payload)
         answer = ai_response(response)
