@@ -108,8 +108,6 @@ if "model" not in st.session_state:
 else:
     if modelId != st.session_state["model"]:
         initialize_session_state()
-        # st.session_state.messages = []
-        # st.session_state.chat_size = 0
         st.session_state["model"] = modelId
 
 prompt_input = ''
