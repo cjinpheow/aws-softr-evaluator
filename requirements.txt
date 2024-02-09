@@ -4,3 +4,4 @@ simple_term_menu
 termcolor
 argparse
 streamlit
+pyperclip
